@@ -70,3 +70,10 @@ footer h4{font-weight:400;font-size:.74rem;letter-spacing:.2em;text-transform:up
 .qv[open]{grid-template-columns:1fr;overflow:auto}.qv-i{min-height:0}.qv-i img{max-height:62vh}.qv-t{padding:22px}}
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease;transition-delay:var(--d,0s)}.js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.hero h1{animation:none}html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}.grid img{transition:none}}
+.enq p{max-width:52ch;margin:0 auto 26px;opacity:.9}
+.pg{padding:150px 0 92px}
+.pg h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:300;font-size:clamp(2rem,5vw,3.4rem);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin:0 0 28px}
+.crumb{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);text-align:center;margin:0 0 28px}.crumb a{text-decoration:none}.crumb a:hover{color:var(--tan)}
+.lead{max-width:640px;margin:0 auto 22px;text-align:center;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.35rem;line-height:1.6}
+.lnk{list-style:none;margin:36px auto 40px;padding:0;max-width:600px;border-top:1px solid var(--line)}.lnk li{border-bottom:1px solid var(--line)}.lnk a{display:block;padding:16px 0;text-decoration:none}.lnk a:hover{color:var(--tan)}
+@media (max-width:860px){.pg{padding:120px 0 64px}}
