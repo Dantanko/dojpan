@@ -3,7 +3,7 @@
 Nothing here touches the live GitHub Pages site. You test on a free *.pages.dev address first.
 
 1. Cloudflare dashboard > Storage & Databases > D1 > Create database `dojpan-shop`.
-2. Open its Console tab. Paste all of `db/0001_init.sql` and run. Then `db/0002_product_images.sql` and `db/0003_product_images_table.sql` and `db/0004_orders_notified.sql`. Then `db/seed-test.sql` (a N100 test piece).
+2. Open its Console tab. Paste all of `db/0001_init.sql` and run. Then `db/0002_product_images.sql` and `db/0003_product_images_table.sql` `db/0004_orders_notified.sql` and `db/0005_orders_source.sql`. Then `db/seed-test.sql` (a N100 test piece).
 3. Workers & Pages > Create > Pages > Connect to Git > repo `dojpan` (main). No build command; output directory blank/`/`.
 4. Pages project > Settings:
    - Bindings > D1 database: variable `DB` = `dojpan-shop`
@@ -44,3 +44,15 @@ Without it the admin stays switched off. Sign in at /admin/. Orders tab: pack, s
 Later, put Cloudflare Access in front of /admin/* for a second lock.
 Optional emails (Resend): secrets `RESEND_API_KEY`; variables `MAIL_FROM` (an address on a domain verified in Resend), `NOTIFY_EMAIL` (manager).
 Without them no email is sent; the admin page still shows every paid order.
+
+## Automatic WhatsApp alert for every paid online order
+Cloudflare secrets: `WHATSAPP_TOKEN` (permanent token). Variables: `WHATSAPP_PHONE_ID`, `WHATSAPP_TO` (numbers that get the alert, comma separated, e.g. 2348133464931,2348160851427).
+Optional: `WHATSAPP_TEMPLATE` (default new_order_alert), `WHATSAPP_LANG` (default en).
+In Meta, create a UTILITY template named `new_order_alert`, language English, with this body (6 variables):
+  New paid order {{1}}. Items: {{2}}. Customer: {{3}}. Delivery: {{4}}. Notes: {{5}}. Total: {{6}}. Please open the admin page to pack it.
+The alert goes out the moment payment is confirmed. If it cannot be delivered, the Orders tab shows a warning and a "Resend alerts" button.
+Until Meta approves the template, no WhatsApp alert is sent, and the Orders tab says alerts are not set up.
+
+## Using the admin from a phone
+Open /admin/ in the phone browser, sign in, then "Add to Home Screen". Orders refresh every 30 seconds.
+"Record a sale" is for anything sold outside the website: pick the piece and size, tap Record. Stock drops at once and it is listed under "In-person sales".
