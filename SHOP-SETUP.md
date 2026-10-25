@@ -3,7 +3,7 @@
 Nothing here touches the live GitHub Pages site. You test on a free *.pages.dev address first.
 
 1. Cloudflare dashboard > Storage & Databases > D1 > Create database `dojpan-shop`.
-2. Open its Console tab. Paste all of `db/0001_init.sql` and run. Then `db/0002_product_images.sql`. Then `db/seed-test.sql` (a N100 test piece).
+2. Open its Console tab. Paste all of `db/0001_init.sql` and run. Then `db/0002_product_images.sql` and `db/0003_product_images_table.sql`. Then `db/seed-test.sql` (a N100 test piece).
 3. Workers & Pages > Create > Pages > Connect to Git > repo `dojpan` (main). No build command; output directory blank/`/`.
 4. Pages project > Settings:
    - Bindings > D1 database: variable `DB` = `dojpan-shop`
@@ -23,10 +23,17 @@ Also test: run checkout twice for size 12 (only 1 in stock): the second must ans
 
 Not built yet: confirmation emails and the admin page. Do not use live keys until those and a live test are done.
 
-## Adding a product (run in the D1 console)
-INSERT INTO products (slug, name, description, category, price_kobo, image)
-VALUES ('your-slug', 'Piece name', 'First paragraph.\n\nSecond paragraph.', 'asoebi', 4500000, '/images/shop/your-slug.webp');
+## Adding a product with several photos (run in the D1 console)
+INSERT INTO products (slug, name, description, category, price_kobo)
+VALUES ('your-slug', 'Piece name', 'First paragraph.\n\nSecond paragraph.', 'asoebi', 4500000);
 INSERT INTO variants (product_id, size, stock) VALUES
  ((SELECT id FROM products WHERE slug='your-slug'), '10', 2), ((SELECT id FROM products WHERE slug='your-slug'), '12', 3);
-Prices are in kobo (N45,000 = 4500000). Put the photo at images/shop/your-slug.webp in the repo.
+INSERT INTO product_images (product_id, url, alt, position) VALUES
+ ((SELECT id FROM products WHERE slug='your-slug'), '/images/shop/your-slug-1.webp', 'Piece name, front view', 1),
+ ((SELECT id FROM products WHERE slug='your-slug'), '/images/shop/your-slug-2.webp', 'Piece name, back view', 2),
+ ((SELECT id FROM products WHERE slug='your-slug'), '/images/shop/your-slug-3.webp', 'Piece name, fabric detail', 3);
+The photo with the lowest position is the cover (shown in the catalogue and first on the page).
+Alt text: say what the photo shows, in plain words (view, colour, fabric). Only facts Dorcas confirms.
+Photos: WebP, about 800px wide, under 120 KB each, saved in images/shop/ in the repo.
+Prices are in kobo (N45,000 = 4500000).
 To hide a piece: UPDATE products SET active = 0 WHERE slug = 'your-slug';

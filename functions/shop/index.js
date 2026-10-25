@@ -3,7 +3,9 @@ import { html, layout, esc, naira, WA, crumbs } from '../_lib/page.js';
 export async function onRequestGet({ env }) {
   const base = (env.SITE_URL || '').replace(/\/$/, '');
   const { results } = await env.DB.prepare(
-    `SELECT p.slug, p.name, p.price_kobo, p.image, COALESCE(SUM(v.stock - v.held), 0) AS avail
+    `SELECT p.slug, p.name, p.price_kobo,
+            COALESCE((SELECT url FROM product_images i WHERE i.product_id = p.id ORDER BY i.position, i.id LIMIT 1), NULLIF(p.image, '')) AS image,
+            COALESCE(SUM(v.stock - v.held), 0) AS avail
      FROM products p LEFT JOIN variants v ON v.product_id = p.id
      WHERE p.active = 1 GROUP BY p.id ORDER BY p.id DESC`).all();
 

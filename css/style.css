@@ -88,3 +88,11 @@ button.btn{font:inherit;font-size:.74rem;letter-spacing:.18em;text-transform:upp
 .frm{display:grid;gap:16px;max-width:560px;margin:0 auto}.frm label{display:grid;gap:6px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}.frm input,.frm select,.frm textarea{font:inherit;font-size:1rem;letter-spacing:0;text-transform:none;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:12px 14px;border-radius:0;width:100%}.frm[hidden]{display:none}
 .bag{max-width:560px;margin:0 auto 36px;border-top:1px solid var(--line)}.bag div{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}.bag button{background:none;border:0;color:var(--mute);text-decoration:underline;cursor:pointer;font:inherit}
 @media (max-width:860px){.pgrid{grid-template-columns:repeat(2,1fr)}.pd{grid-template-columns:1fr}}
+.gal .pimg img{object-fit:contain}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.th{padding:0;border:1px solid transparent;width:64px;height:84px;overflow:hidden;cursor:pointer;background:var(--band)}.th[aria-current="true"]{border-color:var(--ink)}.th img{width:100%;height:100%;object-fit:cover;display:block}
+.gal .pimg{position:relative;touch-action:pan-y}
+.gp,.gn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;background:var(--bg);border:1px solid var(--line);font:300 1.6rem/1 "Jost",sans-serif;cursor:pointer;color:var(--ink);z-index:1}.gp{left:10px}.gn{right:10px}
+.gc{position:absolute;bottom:10px;right:10px;background:var(--bg);font-size:.74rem;letter-spacing:.14em;padding:4px 10px;z-index:1}
+@keyframes inr{from{opacity:.2;transform:translateX(28px)}to{opacity:1;transform:none}}@keyframes inl{from{opacity:.2;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.in-r{animation:inr .35s ease both}.in-l{animation:inl .35s ease both}
+@media (prefers-reduced-motion:reduce){.in-r,.in-l{animation:none}}
