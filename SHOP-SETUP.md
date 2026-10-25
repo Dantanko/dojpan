@@ -3,7 +3,7 @@
 Nothing here touches the live GitHub Pages site. You test on a free *.pages.dev address first.
 
 1. Cloudflare dashboard > Storage & Databases > D1 > Create database `dojpan-shop`.
-2. Open its Console tab. Paste all of `db/0001_init.sql` and run. Then `db/0002_product_images.sql` and `db/0003_product_images_table.sql`. Then `db/seed-test.sql` (a N100 test piece).
+2. Open its Console tab. Paste all of `db/0001_init.sql` and run. Then `db/0002_product_images.sql` and `db/0003_product_images_table.sql` and `db/0004_orders_notified.sql`. Then `db/seed-test.sql` (a N100 test piece).
 3. Workers & Pages > Create > Pages > Connect to Git > repo `dojpan` (main). No build command; output directory blank/`/`.
 4. Pages project > Settings:
    - Bindings > D1 database: variable `DB` = `dojpan-shop`
@@ -37,3 +37,10 @@ Alt text: say what the photo shows, in plain words (view, colour, fabric). Only 
 Photos: WebP, about 800px wide, under 120 KB each, saved in images/shop/ in the repo.
 Prices are in kobo (N45,000 = 4500000).
 To hide a piece: UPDATE products SET active = 0 WHERE slug = 'your-slug';
+
+## Admin page (/admin/)
+Secrets (Cloudflare Pages > Settings > Variables, as SECRET): `ADMIN_PASSWORD` = a long passphrase (16+ characters, not used anywhere else).
+Without it the admin stays switched off. Sign in at /admin/. Orders tab: pack, ship, mark delivered. Stock tab: adjust sizes, hide pieces.
+Later, put Cloudflare Access in front of /admin/* for a second lock.
+Optional emails (Resend): secrets `RESEND_API_KEY`; variables `MAIL_FROM` (an address on a domain verified in Resend), `NOTIFY_EMAIL` (manager).
+Without them no email is sent; the admin page still shows every paid order.

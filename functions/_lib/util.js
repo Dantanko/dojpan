@@ -1,3 +1,5 @@
+import { notifyPaid } from './notify.js';
+
 export const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
@@ -78,6 +80,7 @@ export async function settleOrder(env, reference) {
   }
 
   const fresh = await db.prepare('SELECT status FROM orders WHERE id = ?').bind(order.id).first();
+  if (fresh.status === 'paid') await notifyPaid(env, order.id);
   if (fresh.status === 'paid' || fresh.status === 'needs_attention') return fresh.status;
   throw new Error('settle_retry'); // hold expired mid-way: fail so Paystack retries via the expired path
 }
