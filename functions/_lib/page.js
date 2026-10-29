@@ -3,11 +3,12 @@ export const naira = (kobo) => {
   const [i, d] = (kobo / 100).toFixed(2).split('.');
   return '₦' + i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (d === '00' ? '' : '.' + d);
 };
+export const OG_IMAGE = 'https://dantanko.github.io/dojpan/images/og-cover.png'; // change to your own domain once it exists
 export const WA = 'https://api.whatsapp.com/message/JH64ATJN3WMPI1?autoload=1&app_absent=0';
 export const html = (body, status = 200, cache = 'public, max-age=60') =>
   new Response(body, { status, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': cache } });
 
-export function layout({ title, description = '', body, jsonld = [], noindex = false, canonical = '' }) {
+export function layout({ title, description = '', body, jsonld = [], noindex = false, canonical = '', image = OG_IMAGE, ogType = 'website' }) {
   const ld = jsonld.map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n');
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -15,6 +16,7 @@ export function layout({ title, description = '', body, jsonld = [], noindex = f
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 ${noindex ? '<meta name="robots" content="noindex">' : ''}${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
+<meta property="og:site_name" content="DOJ Panache"><meta property="og:type" content="${esc(ogType)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}">${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}<meta property="og:image" content="${esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(image)}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="/images/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/css/style.css">
